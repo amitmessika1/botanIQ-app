@@ -1,8 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native'
+/*import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import LoginScreen from './loginScreen';
 
-
 export default function App() {
-   return <LoginScreen/>;
-}  
+  return <LoginScreen/>;
+}  */
+
+import { Redirect } from "expo-router";
+
+export default function Index() {
+  return <Redirect href="/loginScreen" />;
+}
+

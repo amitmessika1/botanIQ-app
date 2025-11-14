@@ -13,7 +13,7 @@ export default function LoginScreen() {
       Alert.alert('שגיאה', 'אנא מלא את כל השדות');
       return;
     }
-    Alert.alert('ברוך הבא!', `נכנסת עם המייל: ${email}`);
+    router.replace('/(tabs)/homeScreen');
   }
   
   return (
