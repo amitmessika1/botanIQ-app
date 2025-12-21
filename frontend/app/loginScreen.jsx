@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
+import { login } from "./services/api"; 
+import { saveToken } from "./services/token";
 
 
 export default function LoginScreen() {
@@ -8,14 +10,25 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert('שגיאה', 'אנא מלא את כל השדות');
+      Alert.alert("שגיאה", "אנא מלא את כל השדות");
       return;
     }
-    router.replace('/(tabs)/homeScreen');
-  }
-  
+
+    try {
+      const data = await login({ email, password });
+      if (!data?.token) {
+        Alert.alert("שגיאה", data?.message || "ההתחברות נכשלה");
+        return;
+      }
+      await saveToken(data.token);
+      router.replace("/(tabs)/homeScreen");
+    } catch (err) {
+      Alert.alert("שגיאה", "שגיאת רשת / שרת לא זמין");
+    }
+  };
+
   return (
 	<View style={styles.container}>
 		<Text style={styles.title}>התחברות</Text>

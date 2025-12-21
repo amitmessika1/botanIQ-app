@@ -3,10 +3,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import {View, Text, FlatList, TouchableOpacity, Image, StyleSheet, Modal,} from "react-native";
 import { useRouter } from "expo-router";
 import { plants } from "../data/plants";
+import { deleteToken } from "../services/token";
 
 export default function HomeScreen() {
   const [selectedPlant, setSelectedPlant] = useState(null);
   const router = useRouter();
+  
+  const handleLogout = async () => {
+  await deleteToken();
+  router.replace("/loginScreen");
+};
 
   return (
 	<SafeAreaView style={styles.safeArea}>
@@ -34,6 +40,11 @@ export default function HomeScreen() {
 		  <Text style={styles.addButtonText}>+ הוסף צמח חדש</Text>
 		</TouchableOpacity>
 		
+		<TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+          <Text style={styles.logoutButtonText}>Logout</Text>
+        </TouchableOpacity>
+
+
 		<Modal visible={!!selectedPlant} transparent animationType="slide">
 		  <View style={styles.modalContainer}>
 			<View style={styles.modalContent}>
@@ -241,6 +252,26 @@ const styles = StyleSheet.create({
 	fontWeight: "700",
 	textAlign: "center",
   },
+  logoutButton: {
+  backgroundColor: "#D32F2F",
+  padding: 16,
+  borderRadius: 25,
+  alignSelf: "center",
+  marginTop: 10,
+  marginBottom: 15,
+  elevation: 4,
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.2,
+  shadowRadius: 4,
+  minWidth: 200,
+},
+logoutButtonText: {
+  color: "#fff",
+  fontWeight: "bold",
+  fontSize: 16,
+  textAlign: "center",
+},
 });
 
 

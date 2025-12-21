@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
+import { signup } from "./services/api";
+import { saveToken } from "./services/token";
 
 export default function SignupScreen() {
   const router = useRouter();
@@ -8,19 +10,25 @@ export default function SignupScreen() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   
-  const handleSignup = () => {
-    if (!email || !password || !confirmPassword) {
-      Alert.alert('שגיאה', 'אנא מלאי את כל השדות');
+  const handleSignup = async () => {
+    if (!email || !password) {
+      Alert.alert("שגיאה", "אנא מלאי את כל השדות");
       return;
     }
 
-    if (password !== confirmPassword) {
-      Alert.alert('שגיאה', 'הסיסמאות אינן תואמות');
-      return;
-    }
+    try {
+      const data = await signup({ email, password });
 
-    Alert.alert('נרשמת בהצלחה!', ` ברוך הבא ${email}`);
-    router.push('/LoginScreen'); 
+      if (!data?.token) {
+        Alert.alert("שגיאה", data?.message || "ההרשמה נכשלה");
+        return;
+      }
+      
+       await saveToken(data.token);
+      router.replace("/(tabs)/homeScreen");
+    } catch (err) {
+      Alert.alert("שגיאה", "שגיאת רשת / שרת לא זמין");
+    }
   };
 
   return (
