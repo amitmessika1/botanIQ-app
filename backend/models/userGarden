@@ -1,0 +1,29 @@
+// backend/models/UserGarden.js
+const mongoose = require("mongoose");
+
+const GardenPlantSchema = new mongoose.Schema(
+  {
+    plantId: { type: mongoose.Schema.Types.ObjectId, required: true, index: true },
+    addedAt: { type: Date, default: Date.now },
+    lastWatered: { type: Date, default: null },
+    nextDue: { type: Date, default: null },
+  },
+  { _id: false }
+);
+
+const UserGardenSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      unique: true,
+      index: true,
+    },
+    plants: { type: [GardenPlantSchema], default: [] },
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("UserGarden", UserGardenSchema, "userGarden");
+

@@ -1,127 +1,73 @@
-import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet } from "react-native";
+import React from "react";
+import { View, Text, FlatList, StyleSheet, ActivityIndicator } from "react-native";
 import { useRouter } from "expo-router";
-import { plants } from "../data/plants";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useState } from "react";
-import { TextInput } from "react-native";
+import SearchBar from "../_components/library/library/library/SearchBar";
+import PlantCard from "../_components/library/library/library/PlantCard";
+import PlantsListFooter from "../_components/library/library/library/PlantsListFooter";
+import { usePlantsSearch } from "../_components/library/library/library/usePlantsSearch";
+
 
 export default function Library() {
   const router = useRouter();
-  const [filteredPlants, setFilteredPlants] = useState(plants); 
-  
-  
-  const handleSearch = (text) => {
-  const filtered = plants.filter((plant) =>
-    plant.name.toLowerCase().includes(text.toLowerCase())
-  );
-
-  setFilteredPlants(filtered);
-};
-
+  const { q, setQ, items, loading, loadingMore, hasMore, loadMore } = usePlantsSearch();
 
   return (
-     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>ספריית צמחים📚</Text>
-	  <TextInput
-        placeholder="חפש צמח..."
-        onChangeText={handleSearch}
-        style={styles.searchBox}
-     />
-
+    <SafeAreaView edges={["left", "right", "bottom"]} style={styles.safeArea}>
+      <Text style={styles.title}>ספריית צמחים</Text>
+      <SearchBar value={q} onChange={setQ} />
+      {loading && (
+        <View style={styles.centerRow}>
+          <ActivityIndicator />
+          <Text style={styles.loadingText}>טוען...</Text>
+        </View>
+      )}
       <FlatList
-        data={filteredPlants}
+        data={items}
         numColumns={2}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={{ paddingBottom: 20 }}
+        keyExtractor={(item) => item._id}
+        onEndReachedThreshold={0.6}
+        onEndReached={loadMore}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.card}
-            onPress={() => router.push(`/plant/${item.id}`)}
-          >
-            <Image source={item.image} style={styles.image} />
-            <Text style={styles.name}>{item.name}</Text>
-          </TouchableOpacity>
+          <PlantCard item={item} onPress={() => router.push(`/plant/${item._id}`)} />
         )}
-		ListEmptyComponent={<Text style={styles.noResults}>לא נמצאו תוצאות</Text>}
+        ListEmptyComponent={!loading ? <Text style={styles.noResults}>לא נמצאו תוצאות</Text> : null}
+        ListFooterComponent={
+          <PlantsListFooter loadingMore={loadingMore} hasMore={hasMore} onLoadMore={loadMore} />
+        }
       />
-     </SafeAreaView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F1F8F4",
-    paddingTop: 40,
-    paddingHorizontal: 15
+    paddingHorizontal: 12,
+    backgroundColor: "#f8fafc",
   },
   title: {
-    fontSize: 32,
-    fontWeight: "bold",
+    fontSize: 22,
+    fontWeight: "800",
+    color: "#0f172a",
     textAlign: "center",
-    marginBottom: 20,
-    color: "#1B5E20",
-    textShadowColor: 'rgba(0, 0, 0, 0.1)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 2,
+    marginTop: 8,
+    marginBottom: 10,
   },
-  card: {
-    flex: 1,
-    backgroundColor: "white",
-    margin: 8,
-    padding: 15,
-    borderRadius: 16,
+  centerRow: {
+    flexDirection: "row",
     alignItems: "center",
-    elevation: 4,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
-    minHeight: 160,
     justifyContent: "center",
+    gap: 8,
+    paddingVertical: 10,
   },
-  image: { 
-    width: 100, 
-    height: 100, 
-    resizeMode: "contain",
-    marginBottom: 8,
-  },
-  name: { 
-    marginTop: 8, 
-    fontSize: 16, 
-    fontWeight: "600",
-    color: "#2E7D32",
-  },
-  searchBox: {
-    backgroundColor: "#fff",
-    padding: 14,
-    borderRadius: 16,
-    borderColor: "#66BB6A",
-    borderWidth: 1.5,
-    marginBottom: 18,
-    fontSize: 16,
-    textAlign: "right",
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+  loadingText: {
+    color: "#64748b",
   },
   noResults: {
     textAlign: "center",
-    fontSize: 18,
-    fontWeight: "500",
-    color: "#6D4C41",
-    marginTop: 30,
-    backgroundColor: "#FFF3E0",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 12,
-    alignSelf: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.12,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-    elevation: 3,
+    paddingVertical: 20,
+    color: "#64748b",
   },
 });
+

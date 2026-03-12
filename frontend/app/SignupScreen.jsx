@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import { signup } from "./services/api";
 import { saveToken } from "./services/token";
@@ -7,17 +7,21 @@ import { saveToken } from "./services/token";
 export default function SignupScreen() {
   const router = useRouter();
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   
   const handleSignup = async () => {
-    if (!email || !password) {
+    if (!username || !email || !password || !confirmPassword) {
       Alert.alert("שגיאה", "אנא מלאי את כל השדות");
       return;
     }
-
+    if (password !== confirmPassword) {
+      Alert.alert("שגיאה", "הסיסמאות לא תואמות");
+      return;
+    }
     try {
-      const data = await signup({ email, password });
+      const data = await signup({ username, email, password });
 
       if (!data?.token) {
         Alert.alert("שגיאה", data?.message || "ההרשמה נכשלה");
@@ -33,23 +37,42 @@ export default function SignupScreen() {
 
   return (
 	<View style={styles.container}>
-	  <Text style={styles.title}>הרשמה</Text>
-	  <TextInput
+    <Image
+  source={require("../assets/logo.png")}
+  style={styles.logo}
+  resizeMode="contain"
+/>
+      <TextInput
         style={styles.input}
-        placeholder="email"
+        placeholder="Email"
+        value={email}
         keyboardType="email-address"
+        autoCapitalize="none"
         onChangeText={setEmail}
       />
-	  <TextInput
+
+      <TextInput
         style={styles.input}
-        placeholder="password"
+        placeholder="Username"
+        value={username}
+        autoCapitalize="none"
+        onChangeText={setUsername}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        value={password}
         secureTextEntry
+        autoCapitalize="none"
         onChangeText={setPassword}
       />
-	   <TextInput
+
+      <TextInput
         style={styles.input}
-        placeholder="confirm password"
+        placeholder="Confirm password"
+        value={confirmPassword}
         secureTextEntry
+        autoCapitalize="none"
         onChangeText={setConfirmPassword}
       />
 	  <TouchableOpacity style={styles.button} onPress={handleSignup}>
@@ -60,6 +83,11 @@ export default function SignupScreen() {
 }
 
 const styles = StyleSheet.create({
+  logo: {
+  width: 340,
+  height: 130,
+  marginBottom: 18,
+},
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -70,7 +98,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: 'bold',
-    marginBottom: 40,
+    marginBottom: 30,
     color: '#2E7D32',
   },
   input: {

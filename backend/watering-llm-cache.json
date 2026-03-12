@@ -1,0 +1,40 @@
+{
+  "Keep moist between watering. Can be a bit dry between watering": {
+    "wateringEveryDays": 4
+  },
+  "Keep moist between watering. Must not be dry between watering": {
+    "wateringEveryDays": 2
+  },
+  "Water when soil is half dry. Change water in the vase regularly.": {
+    "wateringEveryDays": 7,
+    "vaseWaterChangeEveryDays": 7
+  },
+  "Water only when the soil is dry. Must be dry between watering": {
+    "wateringEveryDays": 12
+  },
+  "Keep moist between watering. Water when soil is half dry.": {
+    "wateringEveryDays": 7
+  },
+  "Water when soil is half dry. Can be dry between watering.": {
+    "wateringEveryDays": 7
+  },
+  "Water only when dry or when soil is half dry.": {
+    "wateringEveryDays": 7
+  },
+  "Keep moist between watering. Can dry between watering": {
+    "wateringEveryDays": 5
+  },
+  "Can be dry between watering. Water when soil is half dry.": {
+    "wateringEveryDays": 7
+  },
+  "Water only when dry. Must be dry between watering": {
+    "wateringEveryDays": 12
+  },
+  "Must be dry between watering. Water only when dry.": {
+    "wateringEveryDays": 12
+  },
+  "Change water regularly in the vase. Water when soil is half dry.": {
+    "wateringEveryDays": 7,
+    "vaseWaterChangeEveryDays": 7
+  }
+}

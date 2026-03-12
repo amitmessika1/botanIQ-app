@@ -3,27 +3,52 @@ const router = express.Router();
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const UserGarden = require("../models/UserGarden");
+
 
 router.post("/signup", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { username, password, avatarUrl, email } = req.body;
+
+    const normalized = String(username || "").trim().toLowerCase();
+    if (!normalized) return res.status(400).json({ message: "Username is required" });
     
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "Email already exists" });
+    if (!password) return res.status(400).json({ message: "Password is required" });
+
+    const existingUser = await User.findOne({ username: normalized });
+    if (existingUser) return res.status(400).json({ message: "Username already exists" });
+    
+       // אם אימייל נשלח — נבדוק שהוא לא תפוס
+    const normalizedEmail = String(email || "").trim().toLowerCase();
+    if (normalizedEmail) {
+    const existingEmail = await User.findOne({ email: normalizedEmail });
+    if (existingEmail) return res.status(400).json({ message: "Email already exists" });
     }
-    
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await User.create({
-      email,
+      username: normalized,
+      email: normalizedEmail || undefined, 
       password: hashedPassword,
+      avatarUrl: avatarUrl || "",
+    });
+    
+    await UserGarden.create({
+      userId: newUser._id,
+      plants: [],
     });
 
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
-
-    res.json({ token, user: { id: newUser._id, email } });
-  } catch (err) {
+     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+     return res.json({
+      token,
+      user: {
+        id: newUser._id,
+        username: newUser.username,
+        avatarUrl: newUser.avatarUrl || "",
+      },
+    });
+   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Signup failed" });
   }
@@ -32,28 +57,26 @@ router.post("/signup", async (req, res) => {
 // POST /auth/login
 router.post("/login", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
+    const normalized = String(username || "").trim().toLowerCase();
+    const user = await User.findOne({ username: normalized });
+    if (!user) return res.status(400).json({ message: "User not found" });
 
-    // חיפוש המשתמש
-    const user = await User.findOne({ email });
-    if (!user)
-      return res.status(400).json({ message: "User not found" });
-
-    // בדיקת סיסמה
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
-      return res.status(400).json({ message: "Wrong password" });
+    if (!isMatch) return res.status(400).json({ message: "Wrong password" });
 
-    // JWT
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    console.log("user is : ", user)
-    console.log("process.env.JWT_SECRET is : ", process.env.JWT_SECRET)
-    console.log("token is:", token);
+
     res.json({
       token,
-      user: { id: user._id, email: user.email },
+      user: {
+        id: user._id,
+        username: user.username,
+        displayName: user.displayName || "",
+        avatarUrl: user.avatarUrl || "",
+      },
     });
-  } catch (err) {
+    } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Login failed" });
   }

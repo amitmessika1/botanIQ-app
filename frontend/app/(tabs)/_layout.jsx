@@ -1,13 +1,14 @@
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import AppHeader from "../_components/AppHeader";
 
 export default function TabsLayout() {
   const insets = useSafeAreaInsets();
   return (
     <Tabs
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
         tabBarActiveTintColor: "#1B5E20",
         tabBarInactiveTintColor: "#9E9E9E",
         tabBarStyle: {
@@ -15,7 +16,7 @@ export default function TabsLayout() {
           borderTopWidth: 0,
           height: 50 + insets.bottom,
           paddingBottom: insets.bottom,
-          paddingTop: 8,
+          paddingTop: 5,
           elevation: 8,
           shadowColor: "#000",
           shadowOffset: { width: 0, height: -2 },
@@ -26,6 +27,23 @@ export default function TabsLayout() {
           fontSize: 13,
           fontWeight: "600",
         },
+        headerTitle: () => <AppHeader />,
+        headerTitleAlign: "center",
+        headerShadowVisible: false,
+        headerStyle: {
+        backgroundColor: "#FFFFFF",
+        borderBottomWidth: 0,
+        borderBottomColor: "#e2e8f0",
+        elevation: 8,              // אנדרואיד (כמו הטאב)
+        shadowColor: "#000",       // iOS
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 6,
+      },
+      headerTitleContainerStyle: {
+        paddingHorizontal: 0,     // כמו ריווח כללי
+        paddingBottom: 20, 
+      },
       }}
     >
       <Tabs.Screen
