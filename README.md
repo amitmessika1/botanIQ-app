@@ -19,7 +19,7 @@ This project demonstrates a **full-stack architecture** using:
 
 Users can view all plants in their personal garden and manage plant care.
 
-![My Garden](./screenshots/my-garden.jpeg)
+![My Garden](./my-garden.jpeg)
 
 Features:
 
@@ -35,7 +35,7 @@ Features:
 
 Users can browse and search plants from the plant database.
 
-![Library](./screenshots/library.jpeg)
+![Library](./library.jpeg)
 
 Features:
 
