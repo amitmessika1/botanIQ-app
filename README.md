@@ -81,26 +81,28 @@ The application follows a **client–server architecture** where the mobile app 
 # 🧩 Backend Structure
 
 
+```text
 backend
 │
 ├── middleware
-│ └── auth.js
+│   └── auth.js
 │
 ├── models
-│ ├── User.js
-│ ├── Post.js
-│ └── UserGarden.js
+│   ├── User.js
+│   ├── Post.js
+│   └── UserGarden.js
 │
 ├── routes
-│ ├── auth.js
-│ ├── plants.js
-│ ├── posts.js
-│ ├── reminders.js
-│ └── uploads.js
+│   ├── auth.js
+│   ├── plants.js
+│   ├── posts.js
+│   ├── reminders.js
+│   └── uploads.js
 │
 ├── uploads
 │
 └── server.js
+```
 
 
 ---
@@ -108,26 +110,28 @@ backend
 # 📱 Frontend Structure
 
 
+```text
 frontend
 │
 ├── app
-│ ├── (tabs)
-│ │ ├── homeScreen.jsx
-│ │ ├── library.jsx
-│ │ └── feed.jsx
+│   ├── (tabs)
+│   │   ├── homeScreen.jsx
+│   │   ├── library.jsx
+│   │   └── feed.jsx
 │
 ├── _components
-│ ├── homeScreen
-│ └── library
+│   ├── homeScreen
+│   └── library
 │
 ├── hooks
-│ ├── usePlantsSearch.js
-│ └── useReminders.js
+│   ├── usePlantsSearch.js
+│   └── useReminders.js
 │
 ├── services
-│ └── api.js
+│   └── api.js
 │
 └── assets
+```
 
 
 ---
