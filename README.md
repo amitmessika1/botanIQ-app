@@ -1,182 +1,251 @@
-🌿 BotanIQ – Full-Stack Plant Management Application
-BotanIQ is a mobile application that helps users manage their personal plant collection, discover new plants, and receive watering reminders.
+# 🌿 BotanIQ – Full-Stack Plant Management Application
 
-The app allows users to build a digital garden, track plant care, and explore a plant library with detailed information.
+BotanIQ is a **full-stack mobile application** that helps users manage their personal plant collection, discover new plants, and receive watering reminders.
 
-This project was built using React Native (Expo) for the frontend and Node.js + Express + MongoDB for the backend.
+The app allows users to build a **digital garden**, explore a **plant library**, and track plant care activities.
 
-📱 App Screens
-🌱 My Garden
+This project demonstrates a **full-stack architecture** using:
 
-Users can view all the plants in their personal garden and track watering reminders.
+- **Frontend:** React Native (Expo)
+- **Backend:** Node.js + Express
+- **Database:** MongoDB
+- **Authentication:** JWT
 
-Features:
+---
 
-View all plants in your garden
+# 📱 Application Screens
 
-Track watering reminders
+## 🌱 My Garden
 
-Update last watering date
+Users can view all plants in their personal garden and manage plant care.
 
-Remove plants from garden
-
-Floating action button to add plants
-
-📚 Plant Library
-
-Users can browse and search plants from a plant database.
+![My Garden](./screenshots/my-garden.jpeg)
 
 Features:
 
-Search plants
+- View all plants in the personal garden
+- Floating action button to add plants
+- Track watering reminders
+- Update last watering date
+- Remove plants from garden
 
-Infinite scrolling
+---
 
-View plant images
+## 📚 Plant Library
 
-Add plants directly to your garden
+Users can browse and search plants from the plant database.
 
-🔔 Smart Reminders
-
-BotanIQ automatically generates watering reminders based on plant care schedules.
+![Library](./screenshots/library.jpeg)
 
 Features:
 
-Upcoming watering reminders
+- Search plants by name
+- Infinite scrolling
+- View plant images
+- Add plants to personal garden
 
-Last watered tracking
+---
 
-Dynamic reminder updates
+## ⏰ Smart Watering Reminders
 
-🏗 System Architecture
+BotanIQ automatically generates reminders based on the plant watering schedule.
+
+Features:
+
+- Upcoming watering reminders
+- Last watered tracking
+- Dynamic reminder updates
+
+---
+
+# 🏗 System Architecture
+
+
 Mobile App (React Native / Expo)
-        │
-        ▼
- REST API (Express.js)
-        │
-        ▼
-   MongoDB Database
+│
+▼
+REST API (Node.js + Express)
+│
+▼
+MongoDB
 
-The system follows a client–server architecture where the mobile app communicates with a REST API backend.
 
-🧩 Backend Structure
+The application follows a **client–server architecture** where the mobile app communicates with a backend REST API.
+
+---
+
+# 🧩 Backend Structure
+
+
 backend
 │
 ├── middleware
-│   └── auth.js
+│ └── auth.js
 │
 ├── models
-│   ├── User.js
-│   ├── Post.js
-│   └── UserGarden.js
+│ ├── User.js
+│ ├── Post.js
+│ └── UserGarden.js
 │
 ├── routes
-│   ├── auth.js
-│   ├── plants.js
-│   ├── posts.js
-│   ├── reminders.js
-│   └── uploads.js
+│ ├── auth.js
+│ ├── plants.js
+│ ├── posts.js
+│ ├── reminders.js
+│ └── uploads.js
+│
+├── uploads
 │
 └── server.js
-📱 Frontend Structure
+
+
+---
+
+# 📱 Frontend Structure
+
+
 frontend
 │
 ├── app
-│   ├── (tabs)
-│   │   ├── homeScreen.jsx
-│   │   ├── library.jsx
-│   │   └── feed.jsx
+│ ├── (tabs)
+│ │ ├── homeScreen.jsx
+│ │ ├── library.jsx
+│ │ └── feed.jsx
 │
-├── components
-│   ├── homeScreen
-│   └── library
+├── _components
+│ ├── homeScreen
+│ └── library
 │
 ├── hooks
-│   ├── usePlantsSearch.js
-│   └── useReminders.js
+│ ├── usePlantsSearch.js
+│ └── useReminders.js
 │
-└── services
-    └── api.js
-⚙️ Tech Stack
-Frontend
+├── services
+│ └── api.js
+│
+└── assets
 
-React Native
 
-Expo
+---
 
-Expo Router
+# ⚙️ Tech Stack
 
-React Hooks
+## Frontend
 
-Expo Image
+- React Native
+- Expo
+- Expo Router
+- React Hooks
+- Expo Image
+- React Native Safe Area Context
 
-React Native Safe Area Context
+## Backend
 
-Backend
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT Authentication
+- Multer (image uploads)
 
-Node.js
+---
 
-Express
+# 🔗 API Endpoints
 
-MongoDB
+## Authentication
 
-Mongoose
 
-JWT Authentication
-
-Multer (image uploads)
-
-🔗 API Endpoints
-Authentication
 POST /auth/signup
 POST /auth/login
-GET  /auth/me
-Plants
-GET  /plants/search
-GET  /plants/:id
+GET /auth/me
+
+
+## Plants
+
+
+GET /plants/search
+GET /plants/:id
 POST /plants/:id/add-to-garden
 POST /plants/:id/remove-from-garden
-GET  /plants/my-garden
-Reminders
-GET  /reminders
+GET /plants/my-garden
+
+
+## Reminders
+
+
+GET /reminders
 POST /reminders/:plantId/watered
-Posts
-GET  /posts/feed
+
+
+## Posts
+
+
+GET /posts/feed
 POST /posts
 POST /posts/:id/like
-🚀 Installation
-Clone the repository
+
+
+---
+
+# 🚀 Installation
+
+## Clone the repository
+
+
 git clone https://github.com/YOUR_USERNAME/BotanIQ.git
+
 cd BotanIQ
-Backend
+
+
+---
+
+# Backend Setup
+
+
 cd backend
 npm install
-npm start
 
-Create .env file:
+
+Create a `.env` file:
+
 
 MONGO_URI=your_mongodb_uri
 JWT_SECRET=your_secret
-Frontend
+
+
+Run the backend server:
+
+
+npm start
+
+
+---
+
+# Frontend Setup
+
+
 cd frontend
 npm install
 npx expo start
-🧠 Key Features Demonstrated
+
+
+Run the app using:
+
+- Expo Go
+- Android Emulator
+- iOS Simulator
+
+---
+
+# 🧠 Key Concepts Demonstrated
 
 This project demonstrates:
 
-Full-stack development
-
-REST API design
-
-JWT authentication
-
-MongoDB schema modeling
-
-Custom React hooks
-
-Mobile UI development with React Native
-
-Search and pagination
-
-Image handling
+- Full-stack application development
+- REST API design
+- JWT authentication
+- MongoDB schema modeling
+- Custom React hooks
+- Mobile UI development with React Native
+- Search with pagination
+- Image handling and uploads
