@@ -19,7 +19,9 @@ This project demonstrates a **full-stack architecture** using:
 
 Users can view all plants in their personal garden and manage plant care.
 
-![My Garden](./my-garden.jpeg)
+<p align="center">
+  <img src="my-garden.jpeg" width="300"/>
+</p>
 
 Features:
 
@@ -35,7 +37,9 @@ Features:
 
 Users can browse and search plants from the plant database.
 
-![Library](./library.jpeg)
+<p align="center">
+  <img src="library.jpeg" width="300"/>
+</p>
 
 Features:
 
