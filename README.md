@@ -200,7 +200,7 @@ POST /posts/:id/like
 ## Clone the repository
 
 
-git clone https://github.com/YOUR_USERNAME/BotanIQ.git
+git clone https://github.com/amitmessika1/BotanIQ.git
 
 cd BotanIQ
 
